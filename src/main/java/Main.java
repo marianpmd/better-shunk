@@ -4,20 +4,25 @@ import com.github.twitch4j.TwitchClientBuilder;
 import com.github.twitch4j.events.ChannelGoLiveEvent;
 
 import java.awt.*;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Scanner;
 
 
 public class Main {
-    public static void main(String[] args)  {
+    public static void main(String[] args) throws FileNotFoundException {
+        Scanner tokenScanner = new Scanner(new File("src/main/resources/token.txt"));
+        String token = tokenScanner.nextLine();
+
         TwitchClient twitchClient = TwitchClientBuilder.builder()
                 .withEnableHelix(true)
-                .withEnableChat(true)
-                .withChatAccount(new OAuth2Credential("twitch","twitch token here"))
+                .withDefaultAuthToken(new OAuth2Credential("twitch",token))
                 .build();
 
-        twitchClient.getChat().joinChannel("CreativeMonkeyz");
+        twitchClient.getClientHelper().enableStreamEventListener("Petrikah_Om_Bun");
 
         twitchClient.getEventManager().onEvent(ChannelGoLiveEvent.class , (event)->{
             if (SystemTray.isSupported()){
@@ -28,7 +33,6 @@ public class Main {
                 }
             }
         });
-
 
     }
 
