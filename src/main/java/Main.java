@@ -14,7 +14,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws FileNotFoundException {
-        Scanner tokenScanner = new Scanner(new File("src/main/resources/token.txt"));
+        Scanner tokenScanner = new Scanner(new File("token.txt"));
         String token = tokenScanner.nextLine();
 
         TwitchClient twitchClient = TwitchClientBuilder.builder()
@@ -22,7 +22,7 @@ public class Main {
                 .withDefaultAuthToken(new OAuth2Credential("twitch",token))
                 .build();
 
-        twitchClient.getClientHelper().enableStreamEventListener("Petrikah_Om_Bun");
+        twitchClient.getClientHelper().enableStreamEventListener("CreativeMonkeyz");
 
         twitchClient.getEventManager().onEvent(ChannelGoLiveEvent.class , (event)->{
             if (SystemTray.isSupported()){
@@ -39,7 +39,7 @@ public class Main {
     private static void displayTray() throws AWTException {
         SystemTray tray = SystemTray.getSystemTray();
 
-        Image image = Toolkit.getDefaultToolkit().createImage("src/main/resources/3.png");
+        Image image = Toolkit.getDefaultToolkit().createImage("3.png");
         TrayIcon trayIcon = new TrayIcon(image, "Twitch Channel Live");
         trayIcon.setImageAutoSize(true);
         trayIcon.setToolTip("Twitch notification from Java App");
